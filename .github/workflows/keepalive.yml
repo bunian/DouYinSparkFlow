@@ -1,0 +1,19 @@
+name: Keep Alive
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 0 15 * *' # 每月15号运行一次即可
+
+jobs:
+  keepalive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+      - name: 生成空提交续命
+        run: |
+          git config --global user.name "Ho Bot"
+          git config --global user.email "a@hooip.com"
+          git commit --allow-empty -m "The script performs keep-alive checks on the 15th of each month."
+          git push
